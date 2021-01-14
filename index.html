@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="google-site-verification" content="tM2gdsfFG8bOY-ZcBSyohy2n7VbjCogd0ptfQ9hzAWQ" />
+    <title>myVocab.org: Personal vocabulary for learning words</title>
+    <link rel="stylesheet" href="css.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet" />
+    <link rel="canonical" href="https://myvocab.org" />
+    <link rel="icon" type="image/x-icon" href="/pics/favicon.ico" />
+    <link rel="manifest" href="manifest.json" />
+    <!-- Add to home screen for Safari on iOS -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <!-- Add to home screen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="white" />
+    <meta name="apple-mobile-web-app-title" content="myVocab" />
+    <link rel="apple-touch-icon" href="/pics/logo.png?v=1" />
+    <!--  Tile Icon for Windows -->
+    <meta name="msapplication-TileImage" content="/pics/logo.png" />
+    <meta name="msapplication-TileColor" content="#fff" />
+
+    <meta name="title" content="myVocab.org: Personal vocabulary for learning words" />
+    <meta name="keywords" content="vocabulary, personal, word, translation, example, category, search, sort, delete, edit, content, lookup, Google, Translate, pronounce, study, words, written, test, study, share, vocabulary, public, dictionary" />
+    <meta
+      name="description"
+      content="Web app to create your personal vocabulary and study words with a written test."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+
+    <meta property="og:title" content="myVocab.org: Personal vocabulary for learning words" />
+    <meta
+      property="og:description"
+      content="Web app to create your personal vocabulary and study words with a written test."
+    />
+    <meta property="og:url" content="https://myvocab.org" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://myvocab.org/pics/logo.png" />
+
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="max-age=0" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-102424200-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-102424200-3');
+    </script>
+
+    <!-- Global site tag (gtag.js) - Google Ads: 867087266 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-867087266"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'AW-867087266');
+    </script>
+  </head>
+
+  <body>
+    <!-- progress line -->
+    <div id="progress-bar" class="zero-width"></div>
+    <!-- element for excel download -->
+    <a id="download-excel"></a>
+    <!-- tooltip for hovering an el -->
+    <div id="tooltip"></div>
+    <!-- pencil pic to inicate editeble cell in table -->
+    <img id="pencil" src="/pics/pencil.png" />
+    <!-- dimmed background -->
+    <div id="dimmed"></div>
+    <!-- Category textarea menu -->
+    <div id="category-textarea-menu" class="pop-up menu"></div>
+    <!-- Category input menu -->
+    <div id="category-input-menu" class="pop-up menu"></div>
+    <!-- Category td menu -->
+    <div id="category-td-menu" class="pop-up menu"></div>
+    <!-- question to remove learnt words from test -->
+    <div id="filter-learnt-menu" class="pop-up">
+      <div>Exclude learnt words from test?</div>
+      <span id="remove-learnt-words">Yes</span>
+      <span id="leave-learnt-words">No</span>
+      <div id="filter-learnt-words-loading" class="dots">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+        <div class="dot3"></div>
+      </div>
+    </div>
+    <!-- test rusults -->
+    <div id="test-results" class="pop-up">
+      <span class="menu-name">results</span>
+      <span class="close">×</span>
+      <div><span id="zero-mistakes" class="circle">0</span> no mistakes</div>
+      <div><span id="one-mistakes" class="circle">0</span> 1 mistake</div>
+      <div><span id="two-mistakes" class="circle">0</span> 2 mistakes</div>
+      <div><span id="three-mistakes" class="circle">0</span> 3 and more mistakes</div>
+      <div id="learnt-container"><span id="learnt" class="circle">0</span> learnt</div>
+      <div id="download-contaier"><span id="download-audio-files-btn">Download</span> audio files</div>
+    </div>
+    <!-- sign in/up menu -->
+    <div id="login-menu" class="pop-up">
+      <span class="menu-name">Log in / register</span>
+      <span class="close">×</span>
+      <div id="login-box">
+        <form>
+          <div class="inpt-div logpass">
+            <input id="mail" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required="">
+            <span>Mail</span>
+          </div>
+          <div class="inpt-div logpass">
+            <input id="password" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required="">
+            <span>Password</span>
+          </div>
+        </form>
+        <span id="pass-restore-btn">Forgot password?</span>
+        <span id="sign-up-in-btn">Next</span>
+      </div>
+    </div>
+    <!-- overal study progress and words qty -->
+    <div id="stat-menu" class="pop-up">
+      <span class="menu-name">stats</span>
+      <span class="close">×</span>
+      <div id="total-number-heading">
+        <span id="total-number">0</span>
+        words
+      </div>
+      <div id="pie-chart"></div>
+      <div class="pace-container">
+        Attempts for past
+        <span id="past-days" contenteditable>7</span>
+        days -
+        <span id="update-stat-btn"> update</span>
+        <span id="update-stat-loading" class="dots">
+          <div class="dot1"></div>
+          <div class="dot2"></div>
+          <div class="dot3"></div>
+        </span>
+      </div>
+      <div id="col-chart"></div>
+    </div>
+    <!-- admin menu -->
+    <div id="admin-menu" class="pop-up">
+      <span class="menu-name">admin</span>
+      <span class="close">×</span>
+      <div class="pace-container">
+        Logins for past
+        <span id="past-days-admin" contenteditable>7</span>
+        days -
+        <span id="update-stat-admin-btn"> update</span>
+        <span id="update-stat-loading-admin" class="dots">
+          <div class="dot1"></div>
+          <div class="dot2"></div>
+          <div class="dot3"></div>
+        </span>
+      </div>
+      <div>Friends</div>
+      <div id="col-chart-admin-1"></div>
+      <div>Strangers</div>
+      <div id="col-chart-admin-2"></div>
+      <div>All</div>
+      <div id="col-chart-admin-3"></div>
+    </div>
+    <!-- question to add shared words into your vocab or just show it without adding -->
+    <div id="link-menu" class="pop-up">
+      <div>Shared words</div>
+      <span id="add-words-btn" data-my-tip="Shared words will be added to your vocab">Add</span>
+      <span id="show-words-btn" data-my-tip="You will be logged out to display shared words">Show</span>
+    </div>
+    <!-- settings -->
+    <div id="settings-menu" class="pop-up">
+      <span class="menu-name">settings</span>
+      <span class="close">×</span>
+      <div id="pass-div">
+        <form>
+          <input id="new-pass" type="password" placeholder="New password" name="password" required="" autocomplete="off" spellcheck="false" />
+          <input id="new-pass-again" type="password" placeholder="Type again" name="password" required="" autocomplete="off" spellcheck="false" />
+          <span id="confirm-pswd-btn">Go</span>
+        </form>
+      </div>
+      <div>
+        <input id="bulk-category" placeholder="Category for ticked or visible words" autocomplete="off" />
+        <span id="bulk-category-btn">Go</span>
+      </div>
+      <div>
+        <span id="bulk-delete-btn">Delete</span>
+        ticked or visible words
+      </div>
+      <div>
+        <span id="download-excel-btn">Download</span>
+        visible words in Excel
+      </div>
+    </div>
+    <!-- link for shared words -->
+    <div id="share-menu" class="pop-up">
+      <span class="close">×</span>
+      <div id="share-link" class="link">Wait...</div>
+    </div>
+    <!-- sort presets -->
+    <div id="presets-menu" class="pop-up">
+      <span class="menu-name">filter options</span>
+      <span class="close">×</span>
+      <div id="filter-container">
+        <div id="filter-on-display-btn"><input id="main-radio" type="radio" name="presets" checked /><span>shown on display</span></div>
+        <div id="filter-prev-btn" class="with-devider"><input type="radio" name="presets" /><span>previous test settings</span></div>
+        <div id="filter-tested-lately-btn"><input type="radio" name="presets" /><span>tested lately</span></div>
+        <div id="filter-never-tested-btn"><input type="radio" name="presets" /><span>never tested</span></div>
+        <div id="filter-new-btn"><input type="radio" name="presets" /><span>new</span></div>
+        <div id="filter-old-btn"><input type="radio" name="presets" /><span>old</span></div>
+        <div id="filter-hard-btn"><input type="radio" name="presets" /><span>hard</span></div>
+        <div id="filter-simple-btn"><input type="radio" name="presets" /><span>simple</span></div>
+        <div id="filter-not-learnt-btn"><input type="radio" name="presets" /><span>not learnt</span></div>
+        <div id="filter-learnt-btn"><input type="radio" name="presets" /><span>learnt</span></div>
+        <div id="category-container">
+          <!-- here goes user's categories -->
+        </div>
+      </div>
+    </div>
+    <!-- block movable horizontaly by js -->
+    <div id="fixed-horizontally">
+      <header>
+        <!-- left corner -->
+        <div id="left-corner">
+          <a href="https://myvocab.org" target="_blank">
+            <span id="site-url" data-my-tip="Open in a new tab">
+              <span>my</span><span>Vocab</span><span>.org</span>
+            </span>
+          </a>
+          <span id="moto">Study own words</span>
+        </div>
+        <!-- right corner -->
+        <div id="right-corner">
+
+          <div id="logged-box">
+            <span id="user-logged">Unknown</span>
+            <img id="logout-btn" data-my-tip="Log out" src="/pics/logout.png" />
+          </div>
+
+          <div id="ctrl-btns">
+            <img id="undo-btn" data-my-tip="Return deleted word" src="/pics/undo.png" />
+            <img id="share-btn" data-my-tip="Share displayed words" src="/pics/share.png" />
+            <img id="stat-btn" data-my-tip="Study statistics" src="/pics/stat.png" />
+            <img id="settings-btn" data-my-tip="Settings" src="/pics/settings.png" />
+            <img id="admin-btn" data-my-tip="Admin" src="/pics/admin.png" />
+            <span id="login-btn">Login</span>
+          </div>
+        </div>
+      </header>
+
+      <div id="textareas-and-btns">
+        <!-- red notification to register -->
+        <span id="stranger-warning">Log in to save your vocab</span>
+
+        <!-- word translation example category -->
+        <div id="word-box" class="textarea-box">
+          <div class="left">
+            <span id="typo-word-btn" data-my-tip="Accept the answer">Accept?<span class="ctrl-a">Ctrl+A</span></span>
+            <span id="learnt-word-btn" data-my-tip="Mark word as 'Learnt'<br>Difficulty = 0">Learnt?</span>
+            <span id="learnt-word-message" class="very-green">Learnt</span>
+          </div>
+          <textarea id="word-textarea" placeholder="Word" maxlength="250"></textarea>
+          <div class="right">
+            <img id="play-word-btn" class="play-pic" src="/pics/play2.png" />
+            <a id="download-word-btn" class="dwnld" href="" download><img src="/pics/download.png" /></a>
+            <span class="sound-lang-container">
+              <select id="sound-word-select" data-my-tip="Select language">
+                <option value=""></option>
+              </select>
+            </span>
+          </div>
+        </div>
+
+        <div id="translation-box" class="textarea-box">
+          <div class="left">
+            <span id="typo-translation-btn" data-my-tip="Accept the answer">Accept?<span class="ctrl-a">Ctrl+A</span></span>
+            <span id="learnt-translation-btn" data-my-tip="Mark word as 'Learnt'<br>Difficulty = 0">Learnt?</span>
+            <span id="learnt-translation-message" class="very-green">Learnt</span>
+          </div>
+          <textarea id="tranalstion-textarea" placeholder="Translation" maxlength="250"></textarea>
+          <div class="right">
+            <img id="play-translation-btn" class="play-pic" src="/pics/play2.png" />
+            <a id="download-translation-btn" class="dwnld" href="" download><img src="/pics/download.png" /></a>
+            <span class="sound-lang-container">
+              <select id="sound-translation-select" data-my-tip="Select language">
+                <option value=""></option>
+              </select>
+            </span>
+          </div>
+        </div>
+
+        <div id="example-box" class="textarea-box">
+          <div class="left"></div>
+          <textarea id="example-textarea" placeholder="Comment" maxlength="1000"></textarea>
+          <div class="right">
+            <img id="play-example-btn" class="play-pic" src="/pics/play2.png" />
+            <a id="download-example-btn" class="dwnld" href="" download><img src="/pics/download.png" /></a>
+            <span class="sound-lang-container">
+              <select id="sound-example-select" data-my-tip="Select language">
+                <option value=""></option>
+              </select>
+            </span>
+          </div>
+        </div>
+
+        <div id="category-box" class="textarea-box">
+          <div class="left"></div>
+          <textarea id="category-textarea" placeholder="Category" maxlength="250"></textarea>
+          <div class="right"></div>
+        </div>
+
+        <!-- buttons -->
+        <div id="btns-box">
+          <div id="start-test-box">
+            <button id="start-test-btn">Test</button>
+            <span id="test-settings-box">
+              <img id="presets-btn" src="/pics/filter.png" data-my-tip="Filter presets to show and test specific words" />
+              <img id="sound-word-btn" src="/pics/play_bigger.png" data-my-tip="Pronounce words after each answer" />
+              <img id="sound-off-btn" src="/pics/playOff_bigger.png" />
+              <img id="sound-word-translation-btn" src="/pics/play_12.png" />
+              <img id="sound-word-example-btn" src="/pics/play_13.png" />
+              <img id="sound-example-btn" src="/pics/play_3.png" />
+              <img id="sound-word-translation-example-btn" src="/pics/play_123.png" />
+              <img id="sound-endless-on-btn" src="/pics/repeat.png" data-my-tip="Test words until all are correct" />
+              <img id="sound-endless-off-btn" src="/pics/repeatOff.png" />
+              <img id="direct-test-btn" src="/pics/direct_test.png" data-my-tip="Test direction" />
+              <img id="reverse-test-btn" src="/pics/reverse_test.png" />
+              <img id="combo-test-btn" src="/pics/combo_test.png" />
+              <span id="words-num-in-test" data-my-tip="Words on display / in test" contenteditable>30</span>
+            </span>
+          </div>
+          <div id="update-from-textarea-box">
+            <button id="update-from-textarea-btn">Update</button>
+          </div>
+          <div id="stop-test-box">
+            <button id="stop-test-btn">Stop</button>
+          </div>
+          <div id="translate-box">
+            <button id="translate-btn" data-my-tip="Shift+Enter">Translate</button>
+            <span id="translate-langs-box">
+              <select id="translate-lang-word-select" data-my-tip="Select language">
+                <option value=""></option>
+              </select>
+              <img id="swap-translation-languages-btn" src="/pics/translation_arrows.png" data-my-tip="Change translation direction" />
+              <select id="translate-lang-translation-select" data-my-tip="Select language">
+                <option value=""></option>
+              </select>
+            </span>
+          </div>
+          <div id="add-box">
+            <button id="add-btn">Add</button>
+            <span id="add-shortcut" class="shortcut">Enter</span>
+          </div>
+          <div id="update-from-test-box">
+            <button id="update-from-test-btn">Update</button>
+            <span id="update-from-test-shortcut" class="shortcut">Ctrl+U</span>
+          </div>
+          <div id="hint-box">
+            <button id="hint-btn">Hint</button>
+            <span id="hint-shortcut" class="shortcut">Ctrl+H</span>
+          </div>
+          <div id="check-box">
+            <button id="check-btn">Check</button>
+            <span id="check-shortcut" class="shortcut">Enter</span>
+          </div>
+          <div id="next-box">
+            <button id="next-btn">Next</button>
+            <span id="next-shortcut" class="shortcut">Enter</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- line with search field -->
+      <div id="search-container">
+        <div id="search-reset-box">
+          <input id="input15" placeholder="Search" />
+          <!-- <span id="number-of-found-words"></span> -->
+          <img id="search-btn" src="/pics/search_button.png" data-my-tip="Ctrl+F" />
+          <img id="delete-btn" src="/pics/delete_button.png" data-my-tip="Clean search fields" />
+          <!-- Category search menu -->
+          <div id="category-search-menu" class="pop-up menu"></div>
+        </div>
+      </div>
+    </div>
+    <!-- table + some words -->
+    <div id="tbl-loading">
+      <!-- static words -->
+      <span id="loading" class="dots">
+        <!-- <span id="loading-text">Loading</span> -->
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+        <div class="dot3"></div>
+      </span>
+      <span id="new-vocab-add-words">New vocabulary. Add words.</span>
+      <span id="empty">Empty</span>
+      <!-- table -->
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th id="th1">
+              <div>
+                <input type="checkbox" id="select-all-checkbox" data-my-tip="Select specific words to add in test<br>Otherwise all displayed words go into test" />
+              </div>
+              <div></div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th2">
+              <div>
+                <span>Word</span>
+                <span id="arrow1" class="arrow" data-my-tip="Sort ascending">&#x25B2;</span>
+                <span id="arrow2" class="arrow" data-my-tip="Sort descending">&#x25BC;</span>
+              </div>
+              <div><input id="input1" placeholder="Search" /></div>
+              <div class="unhide">Unhide</div>
+            </th>
+
+            <th id="th3">
+              <div>
+                <span>Translation</span>
+                <span id="arrow3" class="arrow" data-my-tip="Sort ascending">▲</span>
+                <span id="arrow4" class="arrow" data-my-tip="Sort descending">▼</span>
+              </div>
+              <div><input id="input2" placeholder="Search" /></div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th4">
+              <div>
+                <span>Comment</span>
+                <span id="arrow5" class="arrow" data-my-tip="Sort ascending">▲</span>
+                <span id="arrow6" class="arrow" data-my-tip="Sort descending">▼</span>
+              </div>
+              <div><input id="input3" placeholder="Search" /></div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th5">
+              <div>
+                <span>Category</span>
+                <span id="arrow7" class="arrow" data-my-tip="Sort ascending">▲</span>
+                <span id="arrow8" class="arrow" data-my-tip="Sort descending">▼</span>
+              </div>
+              <div><input id="input4" placeholder="Search" /></div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th6">
+              <div>
+                <span>Modified</span>
+                <span id="arrow9" class="arrow" data-my-tip="Sort ascending">▲</span>
+                <span id="arrow10" class="arrow" data-my-tip="Sort descending">▼</span>
+              </div>
+              <div>
+                <input id="input5" placeholder="From" />
+                <input id="input6" placeholder="To" />
+              </div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th7">
+              <div>
+                <span>Passed</span>
+                <span id="arrow11" class="arrow" data-my-tip="Sort ascending">▲</span>
+                <span id="arrow12" class="arrow" data-my-tip="Sort descending">▼</span>
+              </div>
+              <div>
+                <input id="input7" placeholder="Min" data-my-tip="0...100" />
+                <input id="input8" placeholder="Max" data-my-tip="0...100" />
+              </div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th8">
+              <div>
+                <span>Failed</span>
+                <span id="arrow13" class="arrow" data-my-tip="Sort ascending">▲</span>
+                <span id="arrow14" class="arrow" data-my-tip="Sort descending">▼</span>
+              </div>
+              <div>
+                <input id="input9" placeholder="Min" data-my-tip="0...100" />
+                <input id="input10" placeholder="Max" data-my-tip="0...100" />
+              </div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th9">
+              <div>
+                <span data-my-tip="Difficulty rate between 0...10<br>Click on circle to modify">Difficulty</span>
+                <span id="arrow15" class="arrow" data-my-tip="Sort ascending">▲</span>
+                <span id="arrow16" class="arrow" data-my-tip="Sort descending">▼</span>
+              </div>
+              <div>
+                <input id="input11" placeholder="Min" data-my-tip="0...10" />
+                <input id="input12" placeholder="Max" data-my-tip="0...10" />
+              </div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th10">
+              <div>
+                <span>Tested</span>
+                <span id="arrow17" class="arrow" data-my-tip="Sort ascending">▲</span>
+                <span id="arrow18" class="arrow" data-my-tip="Sort descending">▼</span>
+              </div>
+              <div>
+                <input id="input13" placeholder="From" />
+                <input id="input14" placeholder="To" />
+              </div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th11">
+              <div></div>
+              <div></div>
+              <div class="hide">Hide</div>
+            </th>
+
+            <th id="th12">
+              <div>ID</div>
+            </th>
+          </tr>
+        </thead>
+
+        <!-- here data comes -->
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <!-- footer -->
+    <footer>
+      <span id="bottom-logos">
+        <a href="mailto:info@myvocab.org" data-my-tip="Send questions, ideas, bug reports or just say 'Hello'"><img src="/pics/envelope.png" /></a>
+      </span>
+      <span id="bottom-loading" class="dots">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+        <div class="dot3"></div>
+      </span>
+      <span id="bottom-error"></span>
+    </footer>
+    <!-- load jquery, coz I am stupid and do not know how to make it via pure js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- load js file -->
+    <script src="js.js?v=337"></script>
+  </body>
+</html>
